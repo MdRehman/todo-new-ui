@@ -1,0 +1,29 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div ><a  class="navbar-brand " href="/">in28Minutes</a>
+        </div>
+
+        <ul class="navbar-nav mr-auto" >
+            <li class="navbar-item"> 
+                <a class="nav-link" routerLink="welcome/rehman">Home</a>
+                
+            </li>
+            <li class="navbar-item">
+                <a *ngIf="hardCodedAuthService.isUserLoggedIn()" class="nav-link" routerLink="todos">todos</a>
+            </li>
+            
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="navbar-item"> 
+                <a *ngIf="!hardCodedAuthService.isUserLoggedIn()"   class="nav-link" routerLink="login">login</a>
+                
+            </li>
+            <li class="navbar-item">
+                <a *ngIf="hardCodedAuthService.isUserLoggedIn()" class="nav-link" routerLink="logout">logout</a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</header>
