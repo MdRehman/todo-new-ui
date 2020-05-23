@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { WelcomeBean } from 'src/app/welcome/welcome.component';
+import { API_URL } from 'src/app/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class WelcomeService {
   constructor(private http:HttpClient) { }
 
   getWelcomeMessage(){
-   return this.http.get<WelcomeBean>("http://localhost:8080/welcome-bean/");
+   return this.http.get<WelcomeBean>(`${API_URL}/welcome-bean/`);
   }
   getWelcomeMessageWithPath(name){
 
@@ -20,7 +21,7 @@ export class WelcomeService {
     // let headers= new HttpHeaders({
     //   Authorization:basicHardAuth
     // })
-    return this.http.get<WelcomeBean>(`http://localhost:8080/welcome-bean/${name}`);
+    return this.http.get<WelcomeBean>(`${API_URL}/welcome-bean/${name}`);
    }
 
   //  createdHardAuth(){

@@ -7,11 +7,28 @@ import { BasicAuthService } from '../basic-auth.service';
 })
 export class SpringSecirutyIntercepterService implements HttpInterceptor {
 
-  constructor(private basicAuthService:BasicAuthService) { }
+  constructor(private basicAuthenticationService:BasicAuthService) { }
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
+
+    let basicAuthHeaderString = this.basicAuthenticationService.getAuthToken();
+    let username = this.basicAuthenticationService.getAuthenticatedUser()
+
+    console.log(username)
+    console.log(basicAuthHeaderString)
+    if(basicAuthHeaderString && username) { 
+      request = request.clone({
+        setHeaders : {
+            Authorization : basicAuthHeaderString
+          }
+        }) 
+    }
+    return next.handle(request);
+  }
   // intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-  //   let basicHardAuth=this.basicAuthService.getAuthToken();
-  //   let username = this.basicAuthService.getAuthenticatedUser();
+  //   let username='rehman'
+  //   let password ='dummy'
+  //   let basicHardAuth= 'Basic '+ window.btoa(username+":"+password)
   //   console.log(username)
   //   console.log(basicHardAuth)
   //   if(basicHardAuth && username) { 
@@ -23,21 +40,5 @@ export class SpringSecirutyIntercepterService implements HttpInterceptor {
   //   }
   //   return next.handle(req)
   // }
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-
-    let username='rehman'
-    let password ='dummy'
-    let basicHardAuth= 'Basic '+ window.btoa(username+":"+password)
-    console.log(username)
-    console.log(basicHardAuth)
-    if(basicHardAuth && username) { 
-      req = req.clone({
-        setHeaders : {
-            Authorization : basicHardAuth
-          }
-        }) 
-    }
-    return next.handle(req)
-  }
 
 }

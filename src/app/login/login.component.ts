@@ -39,11 +39,29 @@ export class LoginComponent implements OnInit {
         console.log(data)
         console.log("Inside login")
         console.log('welcome'+this.username);
-        this.route.navigate(['welcome',this.username]).then(x => console.log(x));
+        this.route.navigate(['welcome',this.username]).catch(x =>{ console.log(x)
+        this.basicAuthService.logout()});
         console.log("Reached Here told y provaeena")
         this.loginFailed = false 
               },
       error => {
+        console.log(error);
+        console.log("IN error")
+        this.loginFailed = true;
+      }
+    )
+  }
+
+  handleJWTLogin() {
+    this.basicAuthService.authenticateJWTAuth(this.username, this.password).subscribe(
+      data => {
+        console.log(data)
+        console.log(data)
+        this.route.navigate(['welcome',this.username]);
+        this.loginFailed = false 
+              },
+      error => {
+        console.log(error);
         console.log(error);
         console.log("IN error")
         this.loginFailed = true;

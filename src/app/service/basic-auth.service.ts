@@ -23,13 +23,39 @@ export class BasicAuthService {
     console.log("passowrd:"+password)
     console.log("Basic:"+basicAuthHeaderString)
     return this.http.get<AuthenticationBean>(
-      `${API_URL}/basicAuth`,
+      `${API_URL}/basicauth`,
       {headers}).pipe(
         map(
           data => {
             sessionStorage.setItem(AUTHENTICATED_USER, username);
             sessionStorage.setItem(TOKEN, basicAuthHeaderString);
-            //console.log("Reached here")
+            return data;
+          }
+        )
+      );
+    //console.log("Execute Hello World Bean Service")
+  }
+
+  authenticateJWTAuth(username, password) {
+    
+    // let basicAuthHeaderString = 'Basic ' + window.btoa(username + ':' + password);
+
+    // let headers = new HttpHeaders({
+    //     Authorization: basicAuthHeaderString
+    //   })
+    // console.log("Username:"+ username)
+    // console.log("passowrd:"+password)
+    // console.log("Basic:"+basicAuthHeaderString)
+    return this.http.post<any>(
+      `${API_URL}/authenticate`,{
+        username,
+        password
+      }
+      ).pipe(
+        map(
+          data => {
+            sessionStorage.setItem(AUTHENTICATED_USER, username);
+            sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
             return data;
           }
         )
